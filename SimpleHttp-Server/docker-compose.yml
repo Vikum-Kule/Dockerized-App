@@ -1,0 +1,29 @@
+version: '3.7'
+
+#define services
+services:
+  app-server:
+    build: .
+    container_name: "server-container2"
+    image: http-server:2.0
+    ports:
+      - "8000:8000"
+    restart: always
+    networks:
+      - myapp
+
+  app-client:
+    build: ../multi-client-server-frontend
+    image: http-client:2.0
+    container_name: "client-container2"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/app
+    restart: always
+    depends_on:
+      - app-server
+    networks:
+      - myapp
+networks:
+  myapp:
